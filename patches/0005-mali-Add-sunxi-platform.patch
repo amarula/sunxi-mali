@@ -1,4 +1,4 @@
-From 2b56fc78a4acbffbdebf5b690035d1ba70ef592c Mon Sep 17 00:00:00 2001
+From 4bd29d34ef53bbc1e15538983237b60152601cd1 Mon Sep 17 00:00:00 2001
 From: Maxime Ripard <maxime.ripard@free-electrons.com>
 Date: Tue, 29 Nov 2016 10:18:40 +0100
 Subject: [PATCH 4/4] mali: Add sunxi platform
@@ -6,16 +6,18 @@ Subject: [PATCH 4/4] mali: Add sunxi platform
 Add a platform for the Mali GPU integrated in the Allwinner SoCs.
 
 Signed-off-by: Maxime Ripard <maxime.ripard@free-electrons.com>
+Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- src/devicedrv/mali/platform/sunxi/sunxi.c | 333 +++++++++++++++++++++++
- 1 file changed, 333 insertions(+)
+ src/devicedrv/mali/platform/sunxi/sunxi.c | 410 ++++++++++++++++++++++
+ 1 file changed, 410 insertions(+)
  create mode 100644 src/devicedrv/mali/platform/sunxi/sunxi.c
 
-Index: r6p2/src/devicedrv/mali/platform/sunxi/sunxi.c
-===================================================================
+diff --git a/src/devicedrv/mali/platform/sunxi/sunxi.c b/src/devicedrv/mali/platform/sunxi/sunxi.c
+new file mode 100644
+index 0000000..418c4fc
 --- /dev/null
-+++ r6p2/src/devicedrv/mali/platform/sunxi/sunxi.c
-@@ -0,0 +1,407 @@
++++ b/src/devicedrv/mali/platform/sunxi/sunxi.c
+@@ -0,0 +1,410 @@
 +
 +#include <linux/clk.h>
 +#include <linux/clkdev.h>
@@ -56,6 +58,7 @@ Index: r6p2/src/devicedrv/mali/platform/sunxi/sunxi.c
 +	return of_device_is_compatible(np, "allwinner,sun4i-a10-mali") ||
 +		of_device_is_compatible(np, "allwinner,sun7i-a20-mali") ||
 +		of_device_is_compatible(np, "allwinner,sun8i-h3-mali") ||
++		of_device_is_compatible(np, "allwinner,sun8i-r40-mali") ||
 +		of_device_is_compatible(np, "allwinner,sun50i-a64-mali") ||
 +		of_device_is_compatible(np, "allwinner,sun50i-h5-mali");
 +}
@@ -142,6 +145,7 @@ Index: r6p2/src/devicedrv/mali/platform/sunxi/sunxi.c
 +	{ .compatible = "allwinner,sun4i-a10-mali" },
 +	{ .compatible = "allwinner,sun7i-a20-mali" },
 +	{ .compatible = "allwinner,sun8i-h3-mali" },
++	{ .compatible = "allwinner,sun8i-r40-mali" },
 +	{ .compatible = "allwinner,sun50i-a64-mali" },
 +	{ .compatible = "allwinner,sun50i-h5-mali" },
 +	{ /* sentinel */ },
@@ -331,6 +335,7 @@ Index: r6p2/src/devicedrv/mali/platform/sunxi/sunxi.c
 +	}
 +
 +	if (of_device_is_compatible(np, "allwinner,sun8i-h3-mali") ||
++	    of_device_is_compatible(np, "allwinner,sun8i-r40-mali") ||
 +	    of_device_is_compatible(np, "allwinner,sun50i-h5-mali"))
 +		clk_set_rate(mali->core_clk, 576000000);
 +	else if (of_device_is_compatible(np, "allwinner,sun7i-a20-mali") ||
@@ -423,3 +428,6 @@ Index: r6p2/src/devicedrv/mali/platform/sunxi/sunxi.c
 +
 +	return 0;
 +}
+-- 
+2.25.1
+
